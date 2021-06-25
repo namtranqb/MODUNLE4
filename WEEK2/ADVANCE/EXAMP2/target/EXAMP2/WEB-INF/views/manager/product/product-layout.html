@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+    <link href="/template/css/styles.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+            crossorigin="anonymous"></script>
+    <title>User Management Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <style>
+        .div-form {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .div-form div {
+            margin-left: 20px;
+        }
+    </style>
+
+</head>
+<body>
+<div th:fragment="create" class="col-md-6" style="margin-bottom: 10px">
+    <div class="card">
+
+        <form  th:action="@{/product}" th:object="${product}" method="post" enctype="multipart/form-data">
+<!--            <input type="hidden" value="createProduct" name="action">-->
+            <div class="card-header">
+                <div class="card-title">Create Product</div>
+            </div>
+            <div class="card-body">
+                <div class="form-group form-inline">
+                    <label for="code" class="col-md-3 col-form-label">Product Code: </label>
+                    <div class="col-md-9 p-0">
+                        <input type="text" class="form-control input-full" th:field="*{productCode}"  id="code"
+                               placeholder="Enter Input">
+                    </div>
+                </div>
+                <div class="form-group form-inline">
+                    <label for="pname" class="col-md-3 col-form-label">Product Name: </label>
+                    <div class="col-md-9 p-0">
+                        <input type="text" class="form-control input-full" th:field="*{productName}" id="pname"
+                               placeholder="Enter Input">
+                    </div>
+                </div>
+                <div class="form-group form-inline">
+                    <label for="price" class="col-md-3 col-form-label">Price: </label>
+                    <div class="col-md-9 p-0">
+                        <input type="text" class="form-control input-full" th:field="*{price}" id="price"
+                               placeholder="Enter Input">
+                    </div>
+                </div>
+                <div class="form-group form-inline">
+                    <label for="category" class="col-md-3 col-form-label">Category</label>
+                    <div>
+                        <select th:field="*{category}"  id="category">
+                            <option class="btn"  th:each="c : ${categories}" th:value="${c.categoryId}" th:text="${c.categoryName}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Chooise Image: </label>
+                    <input type="file"  class="btn" th:field="${uploadFile.filesData}" >
+                </div>
+            </div>
+            <div class="card-action" style="margin-bottom: 5px">
+                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="reset" class="btn btn-danger">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:fragment="edit">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+
+                        <form  th:action="@{/edit/${id}}" th:object="${product}" method="post" enctype="multipart/form-data">
+                            <div class="card-header">
+                                <div class="card-title">Create Product</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group form-inline">
+                                    <label for="code" class="col-md-3 col-form-label">Product Code: </label>
+                                    <div class="col-md-9 p-0">
+                                        <input type="text" class="form-control input-full" th:text="*{productCode}"  id="code"
+                                               placeholder="Enter Input">
+                                    </div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="pname" class="col-md-3 col-form-label">Product Name: </label>
+                                    <div class="col-md-9 p-0">
+                                        <input type="text" class="form-control input-full" th:field="*{productName}" id="pname"
+                                               placeholder="Enter Input">
+                                    </div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="price" class="col-md-3 col-form-label">Price: </label>
+                                    <div class="col-md-9 p-0">
+                                        <input type="text" class="form-control input-full" th:text="*{price}" id="price"
+                                               placeholder="Enter Input">
+                                    </div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="category" class="col-md-3 col-form-label">Category</label>
+                                    <div>
+                                        <select th:field="*{category}"  id="category">
+                                            <option class="btn"  th:each="c : ${categories}" th:value="${c.categoryId}" th:text="${c.categoryName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Chooise Image: </label>
+                                    <img width="100" height="100" th:src="@{'/upload/product-img/' + ${row.image}}">
+                                </div>
+                            </div>
+                            <div class="card-action" style="margin-bottom: 5px">
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="reset" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:fragment="footer" class="py-4 bg-light mt-auto">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright &copy; Your Website 2021</div>
+            <div>
+                <a href="#">Privacy Policy</a>
+                &middot;
+                <a href="#">Terms &amp; Conditions</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

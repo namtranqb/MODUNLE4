@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/manager/product/product-layout :: head"></head>
+
+<body class="sb-nav-fixed">
+<div id="layoutSidenav " class="container-fluid">
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Product Manager</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Tables</li>
+                </ol>
+                <div th:replace="/manager/product/product-layout :: create"></div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Product Table
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Code</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Image</th>
+                                <th>Category</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="row : ${products}">
+                                <td th:text="${row.id}"></td>
+                                <td th:text="${row.productCode}"></td>
+                                <td th:text="${row.productName}"></td>
+                                <td th:text="${row.price}"></td>
+                                <td>
+                                    <img width="100" height="100" th:src="@{'/upload/product-img/' + ${row.image}}" alt="anh product">
+                                </td>
+                                <td th:text="${row.category.getCategoryName()}"></td>
+                                <td><a class="btn btn-primary" th:href="@{/edit/${row.id}}" data-toggle="modal" data-target="#exampleModal">edit</a>
+                                    <a th:href="@{/delete/${row.id}}">delete</a>
+                                    <a th:href="@{/view/(id=${row.getId()})}">view</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div th:replace="/manager/product/product-layout :: edit"></div>
+    </div>
+</div>
+<div th:replace="/manager/product/product-layout :: edit"></div>
+<footer th:replace="/manager/product/product-layout :: footer"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="/template/js/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $('#datatablesSimple').DataTable();
+    });
+</script>
+</body>
+</html>

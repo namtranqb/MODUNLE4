@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<h1>Welcome</h1>
+<fieldset>
+    <legend>Login</legend>
+    <table>
+        <div>
+            <label>Account: </label>
+            <input type="text"  disabled th:value="${user.getAccount()}"/>
+        </div>
+        <div>
+            <label>Name: </label>
+            <input disabled type="text" th:value="${user.getName()}"/>
+        </div>
+        <div>
+            <label>Email: </label>
+            <input disabled type="text" th:value="${user.getEmail()}"/>
+        </div>
+        <div>
+            <label>Age: </label>
+            <input disabled type="text" th:value="${user.getAge()}"/>
+        </div>
+
+    </table>
+</fieldset>
+</body>
+</html>
